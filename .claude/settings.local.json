@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Read(//usr/local/**)",
+      "Read(//usr/**)",
+      "Bash(command -v node)",
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\cmlva\\\\KAIZOKU IMPORT\\\\backend\\\\.env.example\" -Destination \"C:\\\\Users\\\\cmlva\\\\KAIZOKU IMPORT\\\\backend\\\\.env\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(ls \"/c/Program Files/\" | grep -i node; ls \"/c/Users/cmlva/AppData/Roaming/\" | grep -i nvm; ls \"/c/Users/cmlva/AppData/Local/\" | grep -i node)",
+      "Bash(\"/c/Program Files/claude-cli-nodejs/node.exe\" --version)",
+      "Bash(find \"/c/Program Files/claude-cli-nodejs\" -name \"node.exe\" 2>/dev/null; find \"/c/Users/cmlva\" -name \"node.exe\" -maxdepth 6 2>/dev/null | head -5)",
+      "Bash(railway --version)",
+      "Bash(git --version)",
+      "Bash(git -C \"/c/Users/cmlva/KAIZOKU IMPORT\" status)"
+    ]
+  }
+}

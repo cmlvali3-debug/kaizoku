@@ -1,0 +1,150 @@
+Tu es en train de travailler sur Oitaku Import, un bot de recherche de voitures japonaises (JDM) et coréennes (KDM) pour un garage d'importation en France.
+
+═══════════════════════════════════════════════════════════
+  CONTEXTE DU PROJET
+═══════════════════════════════════════════════════════════
+
+Le projet est déjà structuré. Voici ce qui existe :
+
+FRONTEND (frontend/)
+- index.html : Interface complète avec onglets Recherche / Sources / Favoris
+  Filtres : marque, modèle dynamique, volant gauche/droite, année min/max, km max, budget max
+  Fonctionnalités : fiche détaillée par voiture, sauvegarde favoris localStorage,
+  export favoris, animation de chargement avec noms des sources
+- app.js : Logique frontend + 20 voitures de démo en fallback
+  Tente d'abord le backend /api/search, sinon utilise les données démo
+
+BACKEND (backend/)
+- server.js : Express + CORS + cron job toutes les 2h + Postgres
+- routes/search.js : Route GET /api/search qui agrège toutes les sources en parallèle
+- adapters/encarAdapter.js : Encar Korea (api.encar.com — PAS de clé requise)
+- adapters/yahooAdapter.js : Yahoo Auctions JP (nécessite YAHOO_JP_APP_ID)
+- adapters/beforwardAdapter.js : BE FORWARD (nécessite BEFORWARD_API_KEY)
+- adapters/kcarAdapter.js : K Car scraper avec Playwright (pas de clé)
+- jobs/refreshListings.js : Cron job qui pre-fetch et stocke en Postgres
+- database/schema.sql : Tables listings, alerts, favorites
+
+21 SOURCES CONFIGURÉES
+🇯🇵 Enchères JP : USS, TAA, CAA, JU, HAA Kobe, Yahoo! Auctions JP
+🇯🇵 Occasion JP : Goo-net Exchange, SBT Japan, BE FORWARD, CarSensor, Carused.jp, CardealPage, CarFromJapan
+🇰🇷 Enchères KR : Autobell (Hyundai Glovis), Lotte Auto Auction, Heydealer, AJ Sellcar
+🇰🇷 Occasion KR : Encar, K Car, Autowini, SK Encar
+
+═══════════════════════════════════════════════════════════
+  MISSION : CE QUE TU DOIS FAIRE
+═══════════════════════════════════════════════════════════
+
+1. INSTALLER LES DÉPENDANCES
+   cd backend && npm install
+   npx playwright install chromium
+
+2. TESTER ENCAR EN PREMIER (pas de clé requise)
+   - Lancer le backend : node src/server.js
+   - Tester : curl "http://localhost:3001/api/search?q=Stinger&sources=encar"
+   - Si ça retourne des vrais véhicules coréens → succès
+   - Déboguer l'adapter si nécessaire (l'API Encar peut changer ses paramètres)
+
+3. CONFIGURER RAILWAY
+   - Initialiser Railway : railway init
+   - Ajouter Postgres : railway add postgresql
+   - Lancer le schema : railway run npm run db:init
+   - Déployer : railway up
+   - Récupérer l'URL publique et la mettre dans frontend/app.js
+
+4. AJOUTER LES ADAPTERS MANQUANTS
+   Les sources suivantes n'ont pas encore d'adapter — créer src/adapters/ pour :
+   - goonetAdapter.js    → goo-net-exchange.com (API partenaire ou scraping)
+   - sbtAdapter.js       → sbtjapan.com (scraping Playwright)
+   - carsensorAdapter.js → carsensor.net (scraping Playwright)
+   - autobellAdapter.js  → autobellglobal.com (API ou scraping)
+
+5. SYSTÈME D'ALERTES EMAIL
+   - Quand un utilisateur fait une recherche → option "créer une alerte"
+   - Le cron job vérifie toutes les 2h si de nouvelles annonces matchent
+   - Envoie un email via SendGrid (SENDGRID_API_KEY dans .env)
+   - Créer : routes/alerts.js + le service email
+
+6. AMÉLIORATION FRONTEND
+   - Connecter le vrai backend (remplacer BACKEND_URL)
+   - Afficher les vraies images des annonces (c.imageUrl)
+   - Ajouter un lien direct vers l'annonce originale (c.listingUrl)
+   - Afficher le délai restant pour les enchères (endsAt pour Yahoo JP)
+
+═══════════════════════════════════════════════════════════
+  EMAILS À ENVOYER POUR LES APIs
+═══════════════════════════════════════════════════════════
+
+--- BE FORWARD (api@beforward.jp) ---
+Subject: API Access Request — Oitaku Import / French JDM Importer
+
+Dear BE FORWARD team,
+
+My name is [TON NOM], and I run Oitaku Import, a specialized Japanese and
+Korean vehicle import dealership based in France.
+
+I am building an internal tool to search and monitor used car listings
+from Japanese sources, and I would like to request access to the BE FORWARD
+partner API to integrate your extensive stock into our search platform.
+
+Business details:
+- Company: Oitaku Import
+- Country: France
+- Activity: JDM/KDM vehicle importer and reseller
+- Estimated monthly API calls: ~10,000
+- Use case: internal stock monitoring and customer-facing search
+
+Please let me know what information or documentation is needed to proceed.
+
+Thank you for your consideration.
+Best regards,
+[TON NOM]
+Oitaku Import
+
+--- GOO-NET EXCHANGE ---
+Contact form: https://www.goo-net-exchange.com/usedcars/partner/
+Subject: API/Data Feed Partnership Request — French JDM Importer
+
+[Même structure que ci-dessus, adapter pour Goo-net]
+
+═══════════════════════════════════════════════════════════
+  VARIABLES D'ENVIRONNEMENT À CONFIGURER
+═══════════════════════════════════════════════════════════
+
+Dans Railway dashboard → Variables :
+
+YAHOO_JP_APP_ID     = (créer sur developer.yahoo.co.jp)
+YAHOO_JP_SECRET     = (créer sur developer.yahoo.co.jp)
+BEFORWARD_API_KEY   = (reçu par email après demande)
+GOONET_API_TOKEN    = (reçu après formulaire partenaire)
+SENDGRID_API_KEY    = (optionnel — pour alertes email)
+FRONTEND_URL        = (ton URL Vercel après déploiement)
+DATABASE_URL        = (auto-rempli par Railway Postgres)
+
+═══════════════════════════════════════════════════════════
+  STACK TECHNIQUE
+═══════════════════════════════════════════════════════════
+
+Backend  : Node.js 18+ / Express / Postgres (pg) / Playwright / node-cron / axios
+Frontend : HTML/CSS/JS vanilla (pas de framework — fonctionne sans build)
+Deploy   : Railway (backend + Postgres) + Vercel (frontend)
+Coût     : ~5€/mois sur Railway plan Hobby
+
+═══════════════════════════════════════════════════════════
+  PRIORITÉ DES TÂCHES
+═══════════════════════════════════════════════════════════
+
+URGENT (faire maintenant) :
+  ✅ Tester Encar adapter (fonctionne sans clé)
+  ✅ Tester K Car scraper Playwright
+  ✅ Déployer sur Railway
+  ✅ Connecter le frontend au vrai backend
+
+ENSUITE :
+  ⬜ Obtenir clé Yahoo JP (30 min de démarches)
+  ⬜ Créer adapters Goo-net, SBT, CarSensor
+  ⬜ Système d'alertes email
+
+PLUS TARD :
+  ⬜ Envoyer emails BE FORWARD et Goo-net pour API partenaire
+  ⬜ Ajouter authentification utilisateur
+  ⬜ Dashboard analytics (prix moyens, tendances marché)

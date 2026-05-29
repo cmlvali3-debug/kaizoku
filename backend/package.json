@@ -1,0 +1,25 @@
+{
+  "name": "oitaku-import-backend",
+  "version": "1.0.0",
+  "description": "Oitaku Import — JDM & KDM car search bot backend",
+  "main": "src/server.js",
+  "scripts": {
+    "start":   "node src/server.js",
+    "dev":     "nodemon src/server.js",
+    "db:init": "psql $DATABASE_URL -f database/schema.sql"
+  },
+  "dependencies": {
+    "axios":      "^1.7.0",
+    "cors":       "^2.8.5",
+    "express":    "^4.19.0",
+    "node-cron":  "^3.0.3",
+    "pg":         "^8.12.0",
+    "playwright": "^1.45.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
