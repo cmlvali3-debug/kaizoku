@@ -4,7 +4,7 @@
 // Replace BACKEND_URL with your Railway URL once deployed
 // ============================================================
 
-const BACKEND_URL = 'http://localhost:3001'; // Replace with Railway URL
+const BACKEND_URL = 'https://oitaku-backend-production.up.railway.app';
 
 // ─── DATA ────────────────────────────────────────────────────
 
