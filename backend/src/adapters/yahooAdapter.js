@@ -41,8 +41,9 @@ const MODEL_JP = {
   'land cruiser': 'ランドクルーザー',
 };
 
-async function searchYahooJP({ q = '', brand = '', model = '', yearMin = 0, yearMax = 9999, kmMax = 999999, budgetMax = 999999 }) {
-  if (!APP_ID) {
+async function searchYahooJP({ q = '', brand = '', model = '', yearMin = 0, yearMax = 9999, kmMax = 999999, budgetMax = 999999, yahooAppId = '' }) {
+  const appId = yahooAppId || APP_ID;
+  if (!appId) {
     console.warn('[Yahoo JP] YAHOO_JP_APP_ID non défini — source ignorée');
     return [];
   }
@@ -51,7 +52,7 @@ async function searchYahooJP({ q = '', brand = '', model = '', yearMin = 0, year
   let keyword = buildKeyword(q, brand, model);
 
   const params = {
-    appid:  APP_ID,
+    appid:  appId,
     query:  keyword,
     hits:   20,
     output: 'json',

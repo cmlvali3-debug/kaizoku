@@ -18,6 +18,7 @@
       --muted: #777;
       --blue: #0984E3;
       --green: #00B894;
+      --purple: #A29BFE;
       --font-jp: 'Zen Kaku Gothic New', sans-serif;
       --font-mono: 'Space Mono', monospace;
     }
@@ -31,8 +32,10 @@
     .logo-mark { width: 46px; height: 46px; background: var(--red); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #fff; }
     .logo-text h1 { font-size: 18px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
     .logo-text span { font-size: 10px; color: var(--muted); font-family: var(--font-mono); letter-spacing: 1px; }
-    .status-pill { display: flex; align-items: center; gap: 6px; background: rgba(0,200,100,0.08); border: 1px solid rgba(0,200,100,0.2); border-radius: 20px; padding: 6px 14px; font-size: 11px; font-family: var(--font-mono); color: #3ECF6F; }
+    .status-pill { display: flex; align-items: center; gap: 6px; background: rgba(0,200,100,0.08); border: 1px solid rgba(0,200,100,0.2); border-radius: 20px; padding: 6px 14px; font-size: 11px; font-family: var(--font-mono); color: #3ECF6F; cursor: pointer; }
     .status-dot { width: 6px; height: 6px; background: #3ECF6F; border-radius: 50%; animation: pulse 2s infinite; }
+    .status-dot.warn { background: var(--gold); }
+    .status-pill.warn { color: var(--gold); background: rgba(240,165,0,0.08); border-color: rgba(240,165,0,0.2); }
     @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
     /* NAV */
@@ -68,7 +71,7 @@
     .search-row { display: flex; gap: 8px; align-items: center; }
     .search-input-wrap { flex: 1; position: relative; }
     .search-input-wrap i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--muted); pointer-events: none; }
-    input[type="text"], input[type="number"], select {
+    input[type="text"], input[type="number"], input[type="email"], input[type="password"], select {
       background: var(--panel2); border: 1px solid var(--border); color: var(--text);
       font-family: var(--font-jp); font-size: 13px; border-radius: 8px; padding: 9px 12px;
       width: 100%; outline: none; transition: border-color 0.2s;
@@ -101,7 +104,7 @@
     @keyframes fadeSlide { from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);} }
     .car-card:hover { border-color: rgba(214,48,49,0.4); transform: translateY(-1px); }
     .car-card.is-fav { border-color: rgba(240,165,0,0.3); }
-    .car-img-block { width: 70px; height: 46px; background: var(--panel2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; position: relative; flex-shrink: 0; }
+    .car-img-block { width: 70px; height: 46px; background: var(--panel2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; position: relative; flex-shrink: 0; overflow: hidden; }
     .car-src-badge { position: absolute; bottom: 2px; right: 2px; font-size: 7px; font-family: var(--font-mono); padding: 1px 4px; border-radius: 2px; font-weight: 700; }
     .src-jp { background: rgba(214,48,49,0.85); color: #fff; }
     .src-kr { background: rgba(9,132,227,0.85); color: #fff; }
@@ -126,7 +129,8 @@
     .modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; gap: 10px; }
     .modal-title { font-size: 15px; font-weight: 700; line-height: 1.4; }
     .modal-close { background: var(--panel2); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .modal-hero { background: var(--panel2); border-radius: 10px; padding: 20px; text-align: center; font-size: 48px; margin-bottom: 16px; }
+    .modal-hero { background: var(--panel2); border-radius: 10px; padding: 20px; text-align: center; font-size: 48px; margin-bottom: 16px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+    .modal-hero img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 8px; }
     .modal-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
     .mbadge { padding: 3px 10px; border-radius: 20px; font-size: 10px; font-family: var(--font-mono); font-weight: 700; }
     .modal-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
@@ -137,9 +141,9 @@
     .modal-price .eur { font-size: 24px; font-weight: 700; font-family: var(--font-mono); }
     .modal-price .local { font-size: 11px; color: var(--muted); font-family: var(--font-mono); margin-top: 3px; }
     .modal-actions { display: flex; gap: 8px; }
-    .btn-primary { flex: 1; background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 10px; font-family: var(--font-jp); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .btn-primary { flex: 1; background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 10px; font-family: var(--font-jp); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
     .btn-primary:hover { background: #E84040; }
-    .btn-secondary { flex: 1; background: var(--panel2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-family: var(--font-jp); font-size: 13px; cursor: pointer; transition: all 0.2s; }
+    .btn-secondary { flex: 1; background: var(--panel2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-family: var(--font-jp); font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
 
     /* STATES */
@@ -171,7 +175,33 @@
     .source-detail-item h4 { font-size: 12px; font-weight: 700; }
     .source-detail-item p { font-size: 10px; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; }
 
+    /* ADMIN PANEL */
+    .admin-section { margin-bottom: 24px; }
+    .admin-section-title { font-size: 11px; font-family: var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .api-key-row { background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+    .api-key-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .api-key-name { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .api-status { font-size: 9px; font-family: var(--font-mono); padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+    .api-status.ok { background: rgba(0,184,148,0.15); color: var(--green); border: 1px solid rgba(0,184,148,0.3); }
+    .api-status.missing { background: rgba(214,48,49,0.12); color: #FF7675; border: 1px solid rgba(214,48,49,0.25); }
+    .api-status.local { background: rgba(240,165,0,0.12); color: var(--gold); border: 1px solid rgba(240,165,0,0.25); }
+    .api-key-desc { font-size: 10px; color: var(--muted); font-family: var(--font-mono); margin-bottom: 8px; }
+    .api-key-input-row { display: flex; gap: 8px; }
+    .api-key-input-row input { flex: 1; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.5px; }
+    .btn-save-key { background: var(--red); color: #fff; border: none; border-radius: 6px; padding: 8px 16px; font-size: 11px; font-family: var(--font-mono); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .btn-save-key:hover { background: #E84040; }
+    .btn-clear-key { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 8px 10px; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+    .btn-clear-key:hover { border-color: #FF7675; color: #FF7675; }
+    .admin-notice { background: rgba(162,155,254,0.08); border: 1px solid rgba(162,155,254,0.2); border-radius: 8px; padding: 12px 14px; font-size: 11px; font-family: var(--font-mono); color: var(--purple); line-height: 1.6; margin-bottom: 16px; }
+    .admin-notice a { color: var(--purple); }
+    .btn-test-api { background: var(--panel); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-size: 10px; font-family: var(--font-mono); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px; }
+    .btn-test-api:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+    .test-result { margin-top: 8px; padding: 8px 12px; border-radius: 6px; font-size: 10px; font-family: var(--font-mono); display: none; }
+    .test-result.success { background: rgba(0,184,148,0.1); color: var(--green); border: 1px solid rgba(0,184,148,0.2); }
+    .test-result.error   { background: rgba(214,48,49,0.1);  color: #FF7675;     border: 1px solid rgba(214,48,49,0.2); }
+
     .jp-deco { font-size: 8px; font-family: var(--font-mono); color: rgba(255,255,255,0.04); letter-spacing: 3px; text-align: center; padding: 16px 0 8px; }
+    .demo-badge { font-size: 8px; font-family: var(--font-mono); background: rgba(162,155,254,0.12); color: var(--purple); border: 1px solid rgba(162,155,254,0.2); border-radius: 3px; padding: 1px 5px; margin-left: 6px; }
   </style>
 </head>
 <body>
@@ -184,13 +214,17 @@
         <span id="sourceCount">JDM &amp; KDM — 21 sources actives</span>
       </div>
     </div>
-    <div class="status-pill"><div class="status-dot"></div><span id="statusText">En ligne</span></div>
+    <div class="status-pill" id="statusPill" onclick="showPage('admin')">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText">Vérification...</span>
+    </div>
   </div>
 
   <div class="main-nav">
-    <button class="nav-btn active" id="nav-search" onclick="showPage('search')"><i class="ti ti-search"></i>Recherche</button>
-    <button class="nav-btn" id="nav-sources" onclick="showPage('sources')"><i class="ti ti-database"></i>Sources</button>
-    <button class="nav-btn" id="nav-favs" onclick="showPage('favs')"><i class="ti ti-star"></i>Favoris <span class="fav-count" id="favCount">0</span></button>
+    <button class="nav-btn active" id="nav-search"  onclick="showPage('search')"><i class="ti ti-search"></i>Recherche</button>
+    <button class="nav-btn"        id="nav-sources" onclick="showPage('sources')"><i class="ti ti-database"></i>Sources</button>
+    <button class="nav-btn"        id="nav-favs"    onclick="showPage('favs')"><i class="ti ti-star"></i>Favoris <span class="fav-count" id="favCount">0</span></button>
+    <button class="nav-btn"        id="nav-admin"   onclick="showPage('admin')"><i class="ti ti-settings"></i>Admin</button>
   </div>
 
   <!-- PAGE RECHERCHE -->
@@ -210,7 +244,7 @@
             <option value="">Toutes</option>
             <option>Nissan</option><option>Toyota</option><option>Honda</option>
             <option>Mazda</option><option>Mitsubishi</option><option>Subaru</option>
-            <option>Lexus</option><option>Infiniti</option>
+            <option>Lexus</option><option>Infiniti</option><option>Suzuki</option>
             <option>Hyundai</option><option>Kia</option><option>Genesis</option><option>SsangYong</option>
           </select>
         </div>
@@ -229,16 +263,29 @@
       </div>
       <div class="filters-grid-2">
         <div class="filter-group"><div class="filter-label">Année min</div>
-          <select id="yearFilter"><option value="">Toutes</option><option>1990</option><option>1995</option><option>2000</option><option>2005</option><option>2010</option><option>2015</option><option>2018</option><option>2020</option></select>
+          <select id="yearFilter">
+            <option value="">Toutes</option><option>1985</option><option>1990</option><option>1993</option>
+            <option>1995</option><option>2000</option><option>2005</option><option>2010</option>
+            <option>2015</option><option>2018</option><option>2020</option><option>2022</option>
+          </select>
         </div>
         <div class="filter-group"><div class="filter-label">Année max</div>
-          <select id="yearMaxFilter"><option value="">Toutes</option><option>2000</option><option>2005</option><option>2010</option><option>2015</option><option>2018</option><option>2020</option><option>2022</option><option>2024</option></select>
+          <select id="yearMaxFilter">
+            <option value="">Toutes</option><option>1995</option><option>2000</option><option>2005</option>
+            <option>2010</option><option>2015</option><option>2018</option><option>2020</option>
+            <option>2022</option><option>2024</option>
+          </select>
         </div>
         <div class="filter-group"><div class="filter-label">KM max</div>
-          <select id="kmFilter"><option value="">Illimité</option><option value="30000">30 000 km</option><option value="50000">50 000 km</option><option value="100000">100 000 km</option><option value="150000">150 000 km</option><option value="200000">200 000 km</option></select>
+          <select id="kmFilter">
+            <option value="">Illimité</option>
+            <option value="10000">10 000 km</option><option value="30000">30 000 km</option>
+            <option value="50000">50 000 km</option><option value="80000">80 000 km</option>
+            <option value="100000">100 000 km</option><option value="150000">150 000 km</option>
+          </select>
         </div>
         <div class="filter-group"><div class="filter-label">Budget max (€)</div>
-          <input type="number" id="budgetFilter" placeholder="Ex: 15000" />
+          <input type="number" id="budgetFilter" placeholder="Ex: 25000" />
         </div>
       </div>
       <div class="ctrl-row">
@@ -275,7 +322,7 @@
       <div class="empty-text">Aucun résultat — modifiez vos filtres</div>
     </div>
     <div class="results-list" id="resultsList"></div>
-    <div class="jp-deco">OITAKU IMPORT — JDM & KDM — 日本車・韓国車 — 21 SOURCES</div>
+    <div class="jp-deco">OITAKU IMPORT — JDM &amp; KDM — 日本車・韓国車 — 21 SOURCES</div>
   </div>
 
   <!-- PAGE SOURCES -->
@@ -298,6 +345,107 @@
   <div class="page" id="page-favs">
     <div id="favsContent"></div>
   </div>
+
+  <!-- PAGE ADMIN -->
+  <div class="page" id="page-admin">
+
+    <div class="admin-notice">
+      <i class="ti ti-info-circle" style="margin-right:6px"></i>
+      Les clés sont sauvegardées dans votre navigateur (localStorage) et envoyées au backend lors de chaque recherche.
+      Elles ne sont <strong>jamais</strong> transmises à des tiers.
+      Pour une configuration permanente, ajoutez-les dans les variables Railway.
+    </div>
+
+    <!-- YAHOO JP -->
+    <div class="admin-section">
+      <div class="admin-section-title"><i class="ti ti-brand-yahoo"></i> Yahoo! Auctions Japan</div>
+      <div class="api-key-row">
+        <div class="api-key-header">
+          <div class="api-key-name">Client ID (App ID) <span class="api-status missing" id="yahooStatus">NON CONFIGURÉ</span></div>
+          <button class="btn-test-api" onclick="testYahooKey()"><i class="ti ti-plug"></i> Tester</button>
+        </div>
+        <div class="api-key-desc">
+          Gratuit — créer sur <a href="https://developer.yahoo.co.jp" target="_blank" style="color:var(--purple)">developer.yahoo.co.jp</a>
+          → Créer App → Serveur-side → copier Client ID
+        </div>
+        <div class="api-key-input-row">
+          <input type="password" id="yahooKeyInput" placeholder="dj00aiZpPXh4..." />
+          <button class="btn-save-key" onclick="saveKey('yahoo')">Enregistrer</button>
+          <button class="btn-clear-key" onclick="clearKey('yahoo')" title="Supprimer"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="test-result" id="yahooTestResult"></div>
+      </div>
+    </div>
+
+    <!-- SENDGRID -->
+    <div class="admin-section">
+      <div class="admin-section-title"><i class="ti ti-mail"></i> SendGrid — Alertes email</div>
+      <div class="api-key-row">
+        <div class="api-key-header">
+          <div class="api-key-name">API Key <span class="api-status missing" id="sendgridStatus">NON CONFIGURÉ</span></div>
+          <button class="btn-test-api" onclick="testSendgrid()"><i class="ti ti-plug"></i> Tester</button>
+        </div>
+        <div class="api-key-desc">
+          Plan gratuit 100 emails/jour — <a href="https://sendgrid.com" target="_blank" style="color:var(--purple)">sendgrid.com</a>
+          → Settings → API Keys → Create Key (Mail Send)
+        </div>
+        <div class="api-key-input-row">
+          <input type="password" id="sendgridKeyInput" placeholder="SG.xxxx..." />
+          <button class="btn-save-key" onclick="saveKey('sendgrid')">Enregistrer</button>
+          <button class="btn-clear-key" onclick="clearKey('sendgrid')" title="Supprimer"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="test-result" id="sendgridTestResult"></div>
+      </div>
+    </div>
+
+    <!-- BE FORWARD -->
+    <div class="admin-section">
+      <div class="admin-section-title"><i class="ti ti-ship"></i> BE FORWARD</div>
+      <div class="api-key-row">
+        <div class="api-key-header">
+          <div class="api-key-name">API Key <span class="api-status missing" id="beforwardStatus">NON CONFIGURÉ</span></div>
+        </div>
+        <div class="api-key-desc">
+          Accès B2B sur demande — envoyer un email à <strong>api@beforward.jp</strong>
+          en mentionnant "Oitaku Import, France, importateur revendeur".<br>
+          Délai : 3-7 jours ouvrés.
+        </div>
+        <div class="api-key-input-row">
+          <input type="password" id="beforwardKeyInput" placeholder="En attente d'approbation..." />
+          <button class="btn-save-key" onclick="saveKey('beforward')">Enregistrer</button>
+          <button class="btn-clear-key" onclick="clearKey('beforward')" title="Supprimer"><i class="ti ti-x"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GOO-NET -->
+    <div class="admin-section">
+      <div class="admin-section-title"><i class="ti ti-car"></i> Goo-net Exchange</div>
+      <div class="api-key-row">
+        <div class="api-key-header">
+          <div class="api-key-name">Partner Token <span class="api-status missing" id="goonetStatus">NON CONFIGURÉ</span></div>
+        </div>
+        <div class="api-key-desc">
+          Accès partenaire — <a href="https://www.goo-net-exchange.com/partner" target="_blank" style="color:var(--purple)">goo-net-exchange.com/partner</a>
+          → Formulaire de demande. Délai : 5-10 jours ouvrés.
+        </div>
+        <div class="api-key-input-row">
+          <input type="password" id="goonetKeyInput" placeholder="En attente d'approbation..." />
+          <button class="btn-save-key" onclick="saveKey('goonet')">Enregistrer</button>
+          <button class="btn-clear-key" onclick="clearKey('goonet')" title="Supprimer"><i class="ti ti-x"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATUS SERVEUR -->
+    <div class="admin-section">
+      <div class="admin-section-title"><i class="ti ti-server"></i> Statut du serveur Railway</div>
+      <div class="api-key-row" id="serverStatusCard">
+        <div style="font-size:11px;font-family:var(--font-mono);color:var(--muted)">Chargement...</div>
+      </div>
+    </div>
+
+  </div><!-- /admin -->
 </div>
 
 <!-- MODAL -->

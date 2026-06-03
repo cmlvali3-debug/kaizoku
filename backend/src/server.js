@@ -48,6 +48,19 @@ app.use('/api/alerts',    alertRouter);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok', sources: 21 }));
 
+// Status endpoint — tells frontend which API keys are configured server-side
+app.get('/api/status', (_req, res) => {
+  res.json({
+    yahoo_jp:   !!process.env.YAHOO_JP_APP_ID,
+    beforward:  !!process.env.BEFORWARD_API_KEY,
+    goonet:     !!process.env.GOONET_API_TOKEN,
+    encar:      true,   // no key required for public access
+    sendgrid:   !!process.env.SENDGRID_API_KEY,
+    database:   !!process.env.DATABASE_URL,
+    version:    '1.2.0',
+  });
+});
+
 // ─── CRON — refresh every 2 hours ────────────────────────────
 cron.schedule('0 */2 * * *', async () => {
   console.log('[CRON] Refreshing car listings...');

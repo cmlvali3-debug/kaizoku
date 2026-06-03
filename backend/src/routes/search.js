@@ -41,6 +41,11 @@ router.get('/', async (req, res) => {
     sources   = '',      // comma-separated list of source IDs
   } = req.query;
 
+  // API keys can be forwarded from frontend admin panel via headers
+  const yahooAppId  = req.headers['x-yahoo-app-id']  || '';
+  const goonetToken = req.headers['x-goonet-token']  || '';
+  const encarKey    = req.headers['x-encar-key']      || '';
+
   const requestedSources = sources ? sources.split(',') : Object.keys(SOURCE_ADAPTERS);
   const db = req.app.locals.db;
 
@@ -73,6 +78,9 @@ router.get('/', async (req, res) => {
       kmMax:   parseInt(kmMax),
       budgetMax: parseInt(budgetMax),
       volant,
+      yahooAppId,
+      goonetToken,
+      encarKey,
     }).catch(err => {
       console.error(`[search] ${id} error:`, err.message);
       return []; // Don't fail the whole request if one source fails
